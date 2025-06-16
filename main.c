@@ -789,6 +789,19 @@ unsigned long long estimateMemoryUsage(node *root){
     if(root->pointers[i] == NULL){
       continue;
     }
+    if(root->is_leaf){
+        
+        // calculate linked list memory usage
+        record *r = (record *)root->pointers[i];
+        CSVRecordNode *linked_list_node = (CSVRecordNode *)r->value;
+
+        while (linked_list_node) {
+            memory_usage += sizeof(CSVRecordNode);
+            linked_list_node = linked_list_node->next;
+        }
+      }
+
+
     memory_usage += estimateMemoryUsage(root->pointers[i]) + 1;
 
   }
